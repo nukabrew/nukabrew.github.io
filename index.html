@@ -81,4 +81,76 @@
         }
 
         .section-title {
-            font-size:
+            font-size: 1.8rem;
+            margin-bottom: 3rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-card h3 {
+            margin-top: 0;
+            color: var(--accent-color);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">NukaBrew</div>
+        <nav>
+            <a href="#projects">Projects</a>
+            <a href="https://github.com/nukabrew" target="_blank">GitHub</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>커피를 내리듯,<br><span class="highlight">정성스럽게 앱을 내립니다.</span></h1>
+        <p>안녕하세요, 앱 개발자 Nuka입니다. @nukabrew</p>
+    </section>
+
+    <section class="projects" id="projects">
+        <div class="container">
+            <h2 class="section-title">Current Brewing</h2>
+            <div class="grid">
+                <div class="project-card">
+                    <h3>Project 01</h3>
+                    <p>앱 개발 프로젝트의 설명을 여기에 적으세요.</p>
+                </div>
+                <div class="project-card">
+                    <h3>Project 02</h3>
+                    <p>사용한 기술 스택이나 특징을 간결하게 보여줍니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 NukaBrew. All rights reserved.
+    </footer>
+
+</body>
+</html>
