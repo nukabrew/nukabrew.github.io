@@ -245,32 +245,9 @@
                     <div class="nav-btn prev" id="prevBtn"><i data-lucide="chevron-left"></i></div>
                     <div class="nav-btn next" id="nextBtn"><i data-lucide="chevron-right"></i></div>
 
-                    <!-- Jekyll Liquid Loop 적용 부분 -->
+                    <!-- 슬라이더 컨테이너: JS에서 카드를 동적으로 생성합니다. -->
                     <div class="horizontal-scroll-wrapper" id="slider">
-                        {% for app in site.data.apps %}
-                        <a href="{{ app.url | relative_url }}" class="app-card group shadow-sm border border-black/5 bg-white">
-                            <!-- 배경 이미지 레이어 -->
-                            <div class="absolute inset-0 w-full h-full">
-                                <img src="{{ app.image | relative_url }}" alt="{{ app.title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                                <!-- 가독성 오버레이 -->
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-70 transition-opacity"></div>
-                            </div>
-                            
-                            <!-- 콘텐츠 레이어 -->
-                            <div class="relative z-10 p-6 md:p-8 h-full flex flex-col justify-between text-white">
-                                <div class="flex justify-between items-start">
-                                    <span class="text-[10px] font-mono opacity-80 tracking-tighter uppercase">PROJECT-{{ app.id }}</span>
-                                    <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
-                                        <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 class="text-xl md:text-2xl font-black uppercase leading-tight whitespace-pre-line mb-2 drop-shadow-lg">{{ app.title }}</h4>
-                                    <div class="h-[1px] w-0 group-hover:w-full bg-white/50 transition-all duration-500"></div>
-                                </div>
-                            </div>
-                        </a>
-                        {% endfor %}
+                        <!-- 동적 콘텐츠가 여기에 삽입됩니다. -->
                     </div>
                 </div>
             </div>
@@ -297,8 +274,51 @@
     <script>
         lucide.createIcons();
 
-        const mainContainer = document.getElementById('main-container');
+        // 0. 데이터 정의 (Jekyll 환경일 때는 Liquid를 사용하고, 아닐 때는 기본 데이터를 사용하도록 설계)
+        const appData = [
+            { id: '01', title: '총무노트\nSecretary Note', image: 'https://images.unsplash.com/photo-1554224155-1696413565d3?auto=format&fit=crop&w=800&q=80', url: 'projects/secretary-note.html' },
+            { id: '02', title: '돈쭐장부\nDonjjul Ledger', image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=800&q=80', url: 'projects/donjjul-ledger.html' },
+            { id: '03', title: '시급 계산기\nWage Calc', image: 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=800&q=80', url: 'projects/wage-calc.html' },
+            { id: '04', title: '오늘의 루틴\nDaily Routine', image: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=800&q=80', url: 'projects/daily-routine.html' },
+            { id: '05', title: '미니멀 가계부\nPure Spend', image: 'https://images.unsplash.com/photo-1621416848469-80bcc0428331?auto=format&fit=crop&w=800&q=80', url: 'projects/pure-spend.html' },
+            { id: '06', title: '집중 타이머\nDeep Flow', image: 'https://images.unsplash.com/photo-1508962914676-134849a727f0?auto=format&fit=crop&w=800&q=80', url: 'projects/deep-flow.html' },
+            { id: '07', title: '할일 체크\nZero Task', image: 'https://images.unsplash.com/photo-1517842645567-03399a13504f?auto=format&fit=crop&w=800&q=80', url: 'projects/zero-task.html' },
+            { id: '08', title: '운동 기록\nBody Log', image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=800&q=80', url: 'projects/body-log.html' },
+            { id: '09', title: '식단 관리\nClean Food', image: 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&w=800&q=80', url: 'projects/clean-food.html' },
+            { id: '10', title: '감정 일기\nMood Sync', image: 'https://images.unsplash.com/photo-1506784365847-bbad939e9335?auto=format&fit=crop&w=800&q=80', url: 'projects/mood-sync.html' },
+            { id: '11', title: '아이디어 메모\nSpark Pad', image: 'https://images.unsplash.com/photo-1516414447565-b14be0adf13e?auto=format&fit=crop&w=800&q=80', url: 'projects/spark-pad.html' },
+            { id: '12', title: '미래 계획\nVision Map', image: 'https://images.unsplash.com/photo-1519311965067-36d3e5f33d39?auto=format&fit=crop&w=800&q=80', url: 'projects/vision-map.html' }
+        ];
+
+        // 1. 카드 생성 함수
         const slider = document.getElementById('slider');
+        appData.forEach(app => {
+            const card = document.createElement('a');
+            card.href = app.url;
+            card.className = "app-card group shadow-sm border border-black/5 bg-white";
+            card.innerHTML = `
+                <div class="absolute inset-0 w-full h-full">
+                    <img src="${app.image}" alt="${app.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-70 transition-opacity"></div>
+                </div>
+                <div class="relative z-10 p-6 md:p-8 h-full flex flex-col justify-between text-white">
+                    <div class="flex justify-between items-start">
+                        <span class="text-[10px] font-mono opacity-80 tracking-tighter uppercase">PROJECT-${app.id}</span>
+                        <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+                            <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-xl md:text-2xl font-black uppercase leading-tight whitespace-pre-line mb-2 drop-shadow-lg">${app.title.replace('\n', '<br>')}</h4>
+                        <div class="h-[1px] w-0 group-hover:w-full bg-white/50 transition-all duration-500"></div>
+                    </div>
+                </div>
+            `;
+            slider.appendChild(card);
+        });
+        lucide.createIcons(); // 동적 생성 후 아이콘 재호출
+
+        const mainContainer = document.getElementById('main-container');
         const viewContainer = document.getElementById('viewContainer');
         const nextBtn = document.getElementById('nextBtn');
         const prevBtn = document.getElementById('prevBtn');
