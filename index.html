@@ -245,62 +245,32 @@
                     <div class="nav-btn prev" id="prevBtn"><i data-lucide="chevron-left"></i></div>
                     <div class="nav-btn next" id="nextBtn"><i data-lucide="chevron-right"></i></div>
 
+                    <!-- Jekyll Liquid Loop 적용 부분 -->
                     <div class="horizontal-scroll-wrapper" id="slider">
-                        <!-- App Cards -->
-                        <script>
-                            /** * 앱 데이터 배열
-                             * image: 프로젝트의 대표 이미지 경로 (Unsplash 예시 이미지를 넣어두었습니다)
-                             * url: 깃블로그 내의 프로젝트 상세 페이지 경로 (예: projects/폴더명.html)
-                             */
-                            <div class="horizontal-scroll-wrapper" id="slider">
-  {% for app in site.data.apps %}
-    <a href="{{ app.url | relative_url }}" class="app-card group shadow-sm border border-black/5 bg-white">
-        <div class="absolute inset-0 w-full h-full">
-            <img src="{{ app.image | relative_url }}" alt="{{ app.title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-70 transition-opacity"></div>
-        </div>
-        
-        <div class="relative z-10 p-6 md:p-8 h-full flex flex-col justify-between text-white">
-            <div class="flex justify-between items-start">
-                <span class="text-[10px] font-mono opacity-80 tracking-tighter uppercase">PROJECT-{{ app.id }}</span>
-                <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
-                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-                </div>
-            </div>
-            <div>
-                <h4 class="text-xl md:text-2xl font-black uppercase leading-tight whitespace-pre-line mb-2">{{ app.title }}</h4>
-            </div>
-        </div>
-    </a>
-  {% endfor %}
-</div>
-
-                            // 카드 생성 루프
-                            document.write(apps.map(app => `
-                                <a href="${app.url}" class="app-card group shadow-sm border border-black/5 bg-white">
-                                    <!-- 배경 이미지 레이어 -->
-                                    <div class="absolute inset-0 w-full h-full">
-                                        <img src="${app.image}" alt="${app.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                                        <!-- 이미지 위의 어두운 오버레이 (텍스트 가독성) -->
-                                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-70 transition-opacity"></div>
+                        {% for app in site.data.apps %}
+                        <a href="{{ app.url | relative_url }}" class="app-card group shadow-sm border border-black/5 bg-white">
+                            <!-- 배경 이미지 레이어 -->
+                            <div class="absolute inset-0 w-full h-full">
+                                <img src="{{ app.image | relative_url }}" alt="{{ app.title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                <!-- 가독성 오버레이 -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-70 transition-opacity"></div>
+                            </div>
+                            
+                            <!-- 콘텐츠 레이어 -->
+                            <div class="relative z-10 p-6 md:p-8 h-full flex flex-col justify-between text-white">
+                                <div class="flex justify-between items-start">
+                                    <span class="text-[10px] font-mono opacity-80 tracking-tighter uppercase">PROJECT-{{ app.id }}</span>
+                                    <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+                                        <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
                                     </div>
-                                    
-                                    <!-- 콘텐츠 레이어 -->
-                                    <div class="relative z-10 p-6 md:p-8 h-full flex flex-col justify-between text-white">
-                                        <div class="flex justify-between items-start">
-                                            <span class="text-[10px] font-mono opacity-80 tracking-tighter uppercase">PROJECT-${app.id}</span>
-                                            <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
-                                                <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <h4 class="text-xl md:text-2xl font-black uppercase leading-tight whitespace-pre-line mb-2 drop-shadow-lg">${app.title}</h4>
-                                            <div class="h-[1px] w-0 group-hover:w-full bg-white/50 transition-all duration-500"></div>
-                                        </div>
-                                    </div>
-                                </a>
-                            `).join(''));
-                        </script>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl md:text-2xl font-black uppercase leading-tight whitespace-pre-line mb-2 drop-shadow-lg">{{ app.title }}</h4>
+                                    <div class="h-[1px] w-0 group-hover:w-full bg-white/50 transition-all duration-500"></div>
+                                </div>
+                            </div>
+                        </a>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -399,13 +369,10 @@
         // 4. Smart Scroll Logic
         document.getElementById('showcase').addEventListener('wheel', (e) => {
             if (!viewContainer.classList.contains('grid-mode')) return;
-
             const isInsideSlider = slider.contains(e.target);
-            
             if (isInsideSlider) {
                 const isAtTop = slider.scrollTop <= 0;
                 const isAtBottom = Math.abs(slider.scrollHeight - slider.clientHeight - slider.scrollTop) < 2;
-
                 if (!((e.deltaY < 0 && isAtTop) || (e.deltaY > 0 && isAtBottom))) {
                     e.stopPropagation();
                 }
@@ -414,7 +381,6 @@
 
         slider.addEventListener('wheel', (e) => {
             if (viewContainer.classList.contains('grid-mode')) return; 
-            
             stopAutoPlay();
             if ((e.deltaY > 0 && slider.scrollLeft + slider.clientWidth < slider.scrollWidth) ||
                 (e.deltaY < 0 && slider.scrollLeft > 0)) {
@@ -433,7 +399,6 @@
             }
         });
 
-        // Navigation Buttons
         nextBtn.addEventListener('click', () => {
             stopAutoPlay();
             slider.scrollLeft += slider.clientWidth * 0.5;
@@ -450,7 +415,6 @@
             nextBtn.style.opacity = slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 5 ? '0' : '1';
         });
 
-        // 5. Parallax
         mainContainer.addEventListener('scroll', (e) => {
             const frame = document.querySelector('.character-frame');
             if (frame) {
