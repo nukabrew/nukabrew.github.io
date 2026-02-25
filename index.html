@@ -1,3 +1,6 @@
+---
+layout: null
+---
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -13,32 +16,36 @@
             --accent-color: #000000;
         }
         
-        body {
+        body, html {
             background-color: var(--bg-color);
             color: var(--accent-color);
             font-family: 'Inter', 'Noto Sans KR', sans-serif;
             margin: 0;
+            padding: 0;
+            height: 100%;
             overflow: hidden;
         }
 
+        /* 자석 스크롤 컨테이너 */
         .snap-container {
             height: 100vh;
             overflow-y: scroll;
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
         }
 
         section {
             height: 100vh;
             width: 100%;
             scroll-snap-align: start;
+            scroll-snap-stop: always;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
             padding: 2rem;
-            transition: background-color 0.5s ease;
         }
 
         .reveal {
@@ -69,7 +76,6 @@
             position: relative;
             width: 100%;
             max-width: 1600px;
-            transition: all 0.5s ease;
         }
 
         .horizontal-scroll-wrapper {
@@ -87,7 +93,7 @@
             display: none;
         }
 
-        /* 그리드 모드 - 레이아웃 및 스냅 */
+        /* 그리드 모드 */
         .grid-mode .horizontal-scroll-wrapper {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -95,23 +101,16 @@
             overflow-x: hidden;
             max-height: 70vh;
             padding: 1rem;
-            scroll-behavior: smooth;
             scroll-snap-type: y mandatory;
-            scroll-padding-top: 1rem;
             gap: 1.5rem;
         }
 
         @media (max-width: 1024px) {
-            .grid-mode .horizontal-scroll-wrapper {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .grid-mode .horizontal-scroll-wrapper { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 640px) {
-            .grid-mode .horizontal-scroll-wrapper {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.75rem;
-            }
+            .grid-mode .horizontal-scroll-wrapper { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
         }
 
         .app-card {
@@ -122,13 +121,10 @@
             scroll-snap-align: start;
             position: relative;
             overflow: hidden;
+            background: white;
         }
 
-        .grid-mode .app-card {
-            flex: none;
-            min-width: 0;
-            width: 100%;
-        }
+        .grid-mode .app-card { flex: none; width: 100%; }
 
         .app-card:hover {
             transform: translateY(-10px);
@@ -152,9 +148,7 @@
             transition: all 0.3s;
         }
         
-        .grid-mode .nav-btn {
-            display: none !important;
-        }
+        .grid-mode .nav-btn { display: none !important; }
 
         .nav-btn.prev { left: -22px; }
         .nav-btn.next { right: -22px; }
@@ -164,11 +158,7 @@
             .nav-btn.next { right: 10px; }
         }
 
-        /* 뷰 토글 버튼 */
         .view-toggle-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
             padding: 0.5rem 1rem;
             font-size: 0.7rem;
             font-weight: 700;
@@ -177,14 +167,9 @@
             text-transform: uppercase;
         }
 
-        .view-toggle-btn.active {
-            background: black;
-            color: white;
-        }
+        .view-toggle-btn.active { background: black; color: white; }
 
-        ::-webkit-scrollbar {
-            width: 0px;
-        }
+        ::-webkit-scrollbar { width: 0px; }
     </style>
 </head>
 <body>
@@ -231,12 +216,8 @@
                     
                     <div class="flex items-center gap-4">
                         <div class="flex border border-black rounded-full overflow-hidden">
-                            <button id="slideViewBtn" class="view-toggle-btn active border-none">
-                                <i data-lucide="layout-panel-left" class="w-3.5 h-3.5 mr-2"></i> SLIDE
-                            </button>
-                            <button id="gridViewBtn" class="view-toggle-btn border-none border-l border-black">
-                                <i data-lucide="grid" class="w-3.5 h-3.5 mr-2"></i> GRID
-                            </button>
+                            <button id="slideViewBtn" class="view-toggle-btn active border-none">SLIDE</button>
+                            <button id="gridViewBtn" class="view-toggle-btn border-none border-l border-black">GRID</button>
                         </div>
                     </div>
                 </div>
@@ -245,18 +226,14 @@
                     <div class="nav-btn prev" id="prevBtn"><i data-lucide="chevron-left"></i></div>
                     <div class="nav-btn next" id="nextBtn"><i data-lucide="chevron-right"></i></div>
 
-                    <!-- Jekyll Liquid Loop 적용 부분 -->
                     <div class="horizontal-scroll-wrapper" id="slider">
                         {% for app in site.data.apps %}
                         <a href="{{ app.url | relative_url }}" class="app-card group shadow-sm border border-black/5 bg-white">
-                            <!-- 배경 이미지 레이어 -->
                             <div class="absolute inset-0 w-full h-full">
-                                <img src="{{ app.image | relative_url }}" alt="{{ app.title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                                <!-- 가독성 오버레이 -->
+                                <img src="{{ app.image }}" alt="{{ app.title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-70 transition-opacity"></div>
                             </div>
                             
-                            <!-- 콘텐츠 레이어 -->
                             <div class="relative z-10 p-6 md:p-8 h-full flex flex-col justify-between text-white">
                                 <div class="flex justify-between items-start">
                                     <span class="text-[10px] font-mono opacity-80 tracking-tighter uppercase">PROJECT-{{ app.id }}</span>
@@ -265,7 +242,9 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <h4 class="text-xl md:text-2xl font-black uppercase leading-tight whitespace-pre-line mb-2 drop-shadow-lg">{{ app.title }}</h4>
+                                    <h4 class="text-xl md:text-2xl font-black uppercase leading-tight mb-2 drop-shadow-lg">
+                                        {{ app.title | newline_to_br }}
+                                    </h4>
                                     <div class="h-[1px] w-0 group-hover:w-full bg-white/50 transition-all duration-500"></div>
                                 </div>
                             </div>
@@ -281,11 +260,11 @@
             <div class="text-center reveal">
                 <h3 class="text-7xl md:text-9xl font-black uppercase mb-12 tracking-tighter">Connect</h3>
                 <div class="flex flex-col md:flex-row gap-8 justify-center items-center text-xl md:text-2xl font-light">
-                    <a href="#" class="hover:underline underline-offset-8 transition-all">Instagram</a>
+                    <a href="#" class="hover:underline underline-offset-8">Instagram</a>
                     <span class="hidden md:inline opacity-30">/</span>
-                    <a href="#" class="hover:underline underline-offset-8 transition-all">GitHub</a>
+                    <a href="#" class="hover:underline underline-offset-8">GitHub</a>
                     <span class="hidden md:inline opacity-30">/</span>
-                    <a href="mailto:nuka@coffee.com" class="hover:underline underline-offset-8 transition-all">nuka@coffee.com</a>
+                    <a href="mailto:nuka@coffee.com" class="hover:underline underline-offset-8">nuka@coffee.com</a>
                 </div>
                 <footer class="absolute bottom-10 left-0 w-full text-center">
                     <p class="text-[9px] opacity-30 uppercase tracking-[0.5em]">Established 2024 / Design by nukacoffee</p>
@@ -306,7 +285,6 @@
         const slideViewBtn = document.getElementById('slideViewBtn');
         const gridViewBtn = document.getElementById('gridViewBtn');
 
-        // 1. Reveal Animation
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -315,21 +293,17 @@
                         startAutoPlay();
                     }
                 } else {
-                    if (entry.target.id === 'showcase') {
-                        stopAutoPlay();
-                    }
+                    if (entry.target.id === 'showcase') stopAutoPlay();
                 }
             });
         }, { threshold: 0.2 });
         document.querySelectorAll('.reveal, section').forEach((el) => observer.observe(el));
 
-        // 2. View Toggle Logic
         slideViewBtn.addEventListener('click', () => {
             viewContainer.classList.remove('grid-mode');
             slideViewBtn.classList.add('active');
             gridViewBtn.classList.remove('active');
             startAutoPlay();
-            slider.scrollTop = 0;
         });
 
         gridViewBtn.addEventListener('click', () => {
@@ -340,7 +314,6 @@
             scrollStatus.textContent = "GRID VIEW / EXPLORE";
         });
 
-        // 3. Auto-Play (Slide mode only)
         let autoPlayInterval;
         let isAutoPlaying = false;
         let direction = 1;
@@ -349,12 +322,11 @@
             if (isAutoPlaying || viewContainer.classList.contains('grid-mode')) return;
             isAutoPlaying = true;
             scrollStatus.textContent = "AUTO EXPLORING";
-            
             autoPlayInterval = setInterval(() => {
                 const maxScroll = slider.scrollWidth - slider.clientWidth;
                 if (slider.scrollLeft >= maxScroll - 1) direction = -1;
                 if (slider.scrollLeft <= 0) direction = 1;
-                slider.scrollLeft += direction * 1.5;
+                slider.scrollLeft += direction * 1.2;
             }, 30);
         }
 
@@ -366,62 +338,17 @@
             }
         }
 
-        // 4. Smart Scroll Logic
-        document.getElementById('showcase').addEventListener('wheel', (e) => {
-            if (!viewContainer.classList.contains('grid-mode')) return;
-            const isInsideSlider = slider.contains(e.target);
-            if (isInsideSlider) {
-                const isAtTop = slider.scrollTop <= 0;
-                const isAtBottom = Math.abs(slider.scrollHeight - slider.clientHeight - slider.scrollTop) < 2;
-                if (!((e.deltaY < 0 && isAtTop) || (e.deltaY > 0 && isAtBottom))) {
-                    e.stopPropagation();
-                }
-            }
-        }, { passive: false });
-
         slider.addEventListener('wheel', (e) => {
             if (viewContainer.classList.contains('grid-mode')) return; 
             stopAutoPlay();
-            if ((e.deltaY > 0 && slider.scrollLeft + slider.clientWidth < slider.scrollWidth) ||
-                (e.deltaY < 0 && slider.scrollLeft > 0)) {
+            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
                 e.preventDefault();
                 slider.scrollLeft += e.deltaY;
             }
         }, { passive: false });
 
-        slider.addEventListener('mouseenter', () => {
-            if (!viewContainer.classList.contains('grid-mode')) stopAutoPlay();
-        });
-        
-        slider.addEventListener('mouseleave', () => {
-            if (document.querySelector('#showcase').classList.contains('active')) {
-                startAutoPlay();
-            }
-        });
-
-        nextBtn.addEventListener('click', () => {
-            stopAutoPlay();
-            slider.scrollLeft += slider.clientWidth * 0.5;
-        });
-        
-        prevBtn.addEventListener('click', () => {
-            stopAutoPlay();
-            slider.scrollLeft -= slider.clientWidth * 0.5;
-        });
-
-        slider.addEventListener('scroll', () => {
-            if (viewContainer.classList.contains('grid-mode')) return;
-            prevBtn.style.opacity = slider.scrollLeft <= 5 ? '0' : '1';
-            nextBtn.style.opacity = slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 5 ? '0' : '1';
-        });
-
-        mainContainer.addEventListener('scroll', (e) => {
-            const frame = document.querySelector('.character-frame');
-            if (frame) {
-                let scrolled = e.target.scrollTop;
-                frame.style.transform = `translateY(${scrolled * 0.05}px)`;
-            }
-        });
+        nextBtn.addEventListener('click', () => { stopAutoPlay(); slider.scrollLeft += 400; });
+        prevBtn.addEventListener('click', () => { stopAutoPlay(); slider.scrollLeft -= 400; });
     </script>
 </body>
 </html>
