@@ -3,153 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NukaBrew | App Developer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>NUKACOFFEE | Unplug & Play</title>
     <style>
-        :root {
-            --main-bg: #ffffff;
-            --text-color: #333333;
-            --accent-color: #6F4E37; /* 커피 브루잉 포인트 컬러 */
-            --gray-light: #f9f9f9;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Noto Sans KR', sans-serif;
-            background-color: var(--main-bg);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
-
-        /* Header */
-        header {
-            padding: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            font-weight: 700;
-            font-size: 1.5rem;
-            letter-spacing: -1px;
-        }
-
-        nav a {
-            margin-left: 20px;
-            text-decoration: none;
-            color: var(--text-color);
-            font-size: 0.9rem;
-        }
-
-        /* Hero Section */
+        /* 기본 설정 */
+        body, html { margin: 0; padding: 0; font-family: 'Pretendard', sans-serif; overflow-x: hidden; }
+        
+        /* Section 1: 메인 헤더 (아이보리) */
         .hero {
-            padding: 100px 2rem;
+            background-color: #F5F5DC; /* 아이보리 */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            max-width: 800px;
+        }
+        .hero-frame {
+            width: 300px;
+            height: 400px;
+            border: 2px solid #333;
+            background: #fff; /* 캐릭터가 들어갈 자리 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-top: 20px;
+            color: #1a1a1a;
+        }
+
+        /* Section 2: 브랜드 스토리 (블랙) */
+        .brand-story {
+            background-color: #000;
+            color: #fff;
+            padding: 150px 20px;
+            text-align: center;
+        }
+        .brand-story p {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            max-width: 600px;
             margin: 0 auto;
         }
 
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            word-break: keep-all;
+        /* Section 3: 앱 카드 쇼케이스 (포스터 스크롤) */
+        .app-showcase {
+            background-color: #000;
+            padding-bottom: 100px;
+        }
+        .scroll-container {
+            display: flex;
+            gap: 20px;
+            padding: 0 40px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+        .scroll-container::-webkit-scrollbar { display: none; } /* 스크롤바 숨김 */
+
+        .app-poster {
+            flex: 0 0 calc(25% - 20px); /* PC: 4개 */
+            scroll-snap-align: start;
+            aspect-ratio: 2 / 3;
+            background-color: #333;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            box-sizing: border-box;
+            background-size: cover;
+            background-position: center;
+            text-decoration: none;
         }
 
-        .hero p {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 2rem;
-        }
-
-        .highlight {
-            color: var(--accent-color);
-            font-weight: 700;
-        }
-
-        /* Projects Section */
-        .projects {
-            background-color: var(--gray-light);
-            padding: 80px 2rem;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 3rem;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .project-card {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .project-card h3 {
-            margin-top: 0;
-            color: var(--accent-color);
-        }
-
-        /* Footer */
-        footer {
-            padding: 3rem;
+        /* Section 4: Contact */
+        .contact {
+            background-color: #000;
+            color: #fff;
+            padding: 100px 20px;
             text-align: center;
-            font-size: 0.8rem;
-            color: #999;
+            border-top: 1px solid #333;
+        }
+        .contact a { color: #fff; text-decoration: underline; }
+
+        /* 모바일 대응: 2개씩 노출 */
+        @media (max-width: 768px) {
+            .app-poster { flex: 0 0 calc(50% - 15px); }
+            .hero-title { font-size: 2.5rem; }
+            .hero-frame { width: 200px; height: 280px; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">NukaBrew</div>
-        <nav>
-            <a href="#projects">Projects</a>
-            <a href="https://github.com/nukabrew" target="_blank">GitHub</a>
-        </nav>
-    </header>
-
     <section class="hero">
-        <h1>커피를 내리듯,<br><span class="highlight">정성스럽게 앱을 내립니다.</span></h1>
-        <p>안녕하세요, 앱 개발자 Nuka입니다. @nukabrew</p>
+        <div class="hero-frame">
+            <span>캐릭터 이미지 자리</span>
+        </div>
+        <h1 class="hero-title">NUKACOFFEE</h1>
     </section>
 
-    <section class="projects" id="projects">
-        <div class="container">
-            <h2 class="section-title">Current Brewing</h2>
-            <div class="grid">
-                <div class="project-card">
-                    <h3>Project 01</h3>
-                    <p>앱 개발 프로젝트의 설명을 여기에 적으세요.</p>
-                </div>
-                <div class="project-card">
-                    <h3>Project 02</h3>
-                    <p>사용한 기술 스택이나 특징을 간결하게 보여줍니다.</p>
-                </div>
-            </div>
+    <section class="brand-story">
+        <p>
+            UNPLUG & PLAY.<br>
+            복잡한 일상에서 잠시 로그아웃하고,<br>
+            nukacoffee의 앱과 함께 단순한 즐거움을 경험하세요.
+        </p>
+    </section>
+
+    <section class="app-showcase">
+        <div class="scroll-container">
+            <a href="/app1-detail" class="app-poster" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('your-image1.jpg');">
+                <h3>VOID BREW</h3>
+                <p>Coffee Tracker</p>
+            </a>
+            <a href="/app2-detail" class="app-poster" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('your-image2.jpg');">
+                <h3>PIXEL PLATE</h3>
+                <p>Recipe Guide</p>
+            </a>
+            <a href="/app3-detail" class="app-poster" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('your-image3.jpg');">
+                <h3>STATIC CHAT</h3>
+                <p>Voice Lounge</p>
+            </a>
+            <a href="/app4-detail" class="app-poster" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('your-image4.jpg');">
+                <h3>NEXT APP</h3>
+                <p>Coming Soon</p>
+            </a>
         </div>
     </section>
 
-    <footer>
-        &copy; 2026 NukaBrew. All rights reserved.
+    <footer class="contact">
+        <p>Drop us a line</p>
+        <a href="mailto:info@nukacoffee.com">info@nukacoffee.com</a>
     </footer>
 
 </body>
