@@ -26,7 +26,7 @@ layout: null
             overflow: hidden;
         }
 
-        /* 자석 스크롤 컨테이너 */
+        /* 자석 스크롤 컨테이너 (세로) */
         .snap-container {
             height: 100vh;
             overflow-y: scroll;
@@ -93,16 +93,22 @@ layout: null
             display: none;
         }
 
-        /* 그리드 모드 */
+        /* 그리드 모드 - 자석 효과 강화 */
         .grid-mode .horizontal-scroll-wrapper {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             overflow-y: auto;
             overflow-x: hidden;
-            max-height: 70vh;
-            padding: 1rem;
+            max-height: 75vh;
+            padding: 2rem 1rem;
+            /* 그리드 세로 자석 효과 */
             scroll-snap-type: y mandatory;
-            gap: 1.5rem;
+            scroll-behavior: smooth;
+            gap: 2rem;
+        }
+
+        @media (max-width: 1280px) {
+            .grid-mode .horizontal-scroll-wrapper { grid-template-columns: repeat(3, 1fr); }
         }
 
         @media (max-width: 1024px) {
@@ -110,7 +116,10 @@ layout: null
         }
 
         @media (max-width: 640px) {
-            .grid-mode .horizontal-scroll-wrapper { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+            .grid-mode .horizontal-scroll-wrapper { 
+                grid-template-columns: repeat(1, 1fr); 
+                gap: 1.5rem;
+            }
         }
 
         .app-card {
@@ -118,13 +127,20 @@ layout: null
             min-width: 280px;
             aspect-ratio: 3/4;
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            scroll-snap-align: start;
             position: relative;
             overflow: hidden;
             background: white;
+            /* 슬라이드 및 그리드 공통 자석 정렬 */
+            scroll-snap-align: center;
         }
 
-        .grid-mode .app-card { flex: none; width: 100%; }
+        .grid-mode .app-card { 
+            flex: none; 
+            width: 100%; 
+            /* 그리드에서 개별 카드가 중앙에 오도록 */
+            scroll-snap-align: center;
+            scroll-snap-stop: always;
+        }
 
         .app-card:hover {
             transform: translateY(-10px);
