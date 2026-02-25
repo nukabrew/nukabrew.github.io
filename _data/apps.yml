@@ -1,0 +1,9 @@
+id: "01"
+title: "총무노트\nSecretary Note"
+image: "assets/images/secretary.png"
+url: "/projects/secretary-note"
+
+id: "02"
+title: "돈쭐장부\nDonjjul Ledger"
+image: "assets/images/donjjul.png"
+url: "/projects/donjjul-ledger"
