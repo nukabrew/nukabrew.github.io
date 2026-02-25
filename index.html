@@ -117,8 +117,10 @@ layout: null
 
         @media (max-width: 640px) {
             .grid-mode .horizontal-scroll-wrapper { 
-                grid-template-columns: repeat(1, 1fr); 
-                gap: 1.5rem;
+                /* 모바일에서 2x2 형식을 위해 2열로 설정 */
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 0.75rem;
+                padding: 1rem 0.5rem;
             }
         }
 
@@ -137,6 +139,7 @@ layout: null
         .grid-mode .app-card { 
             flex: none; 
             width: 100%; 
+            min-width: 0; /* 그리드 내에서 크기 압축 허용 */
             /* 그리드에서 개별 카드가 중앙에 오도록 */
             scroll-snap-align: center;
             scroll-snap-stop: always;
