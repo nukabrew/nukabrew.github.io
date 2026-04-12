@@ -1,0 +1,117 @@
+/* * Terminal Footer Style (Neo-Brutalism)
+
+Author: nukacoffee
+*/
+
+:root {
+--term-bg: #1a1a1a;
+--term-mint: #71cd94;
+--term-yellow: #ffe66d;
+--term-red: #bf6a96;
+--term-white: #ffffff;
+}
+
+/* 터미널 박스 메인 스타일 */
+.terminal-box {
+max-width: 800px;
+margin: 20px auto;
+background: var(--term-bg);
+color: var(--term-mint);
+border: 4px solid #000000;
+padding: 30px;
+font-family: "JetBrains Mono", monospace;
+
+/* 네오 브루탈리즘 특유의 강렬한 면 그림자 */
+box-shadow: 12px 12px 0px 0px var(--term-red);
+}
+
+/* 터미널 상단 헤더 영역 */
+.terminal-header {
+display: flex;
+align-items: center;
+gap: 12px;
+border-bottom: 1px solid rgba(78, 205, 196, 0.2);
+padding-bottom: 15px;
+margin-bottom: 20px;
+font-size: 0.85rem;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 0.15em;
+}
+
+/* 터미널 내부 텍스트 배치 */
+.terminal-body {
+font-size: 1rem;
+line-height: 1.8;
+}
+
+/* 명령어($) 스타일 */
+.cmd {
+color: var(--term-yellow);
+font-weight: 700;
+margin-right: 10px;
+}
+
+/* 실행 결과 텍스트 스타일 */
+.output {
+color: var(--term-white);
+opacity: 0.9;
+}
+
+/* 커서 깜빡임 효과 */
+.cursor {
+display: inline-block;
+width: 10px;
+height: 20px;
+background: var(--term-mint);
+animation: blink 1s infinite;
+vertical-align: middle;
+margin-left: 8px;
+box-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+}
+
+@keyframes blink {
+0%, 100% {
+opacity: 1;
+}
+50% {
+opacity: 0;
+}
+}
+
+/* 모바일 반응형 처리 */
+@media (max-width: 600px) {
+.terminal-box {
+padding: 20px;
+margin: 10px;
+}
+.terminal-body div {
+margin-bottom: 10px;
+word-break: break-all;
+}
+}
+
+/* About 패널 내부 — 패널 너비에 맞춤 */
+.about-right .terminal-box {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 14px 18px;
+    box-shadow: 5px 5px 0px 0px var(--term-red);
+}
+
+.about-right .terminal-header {
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    font-size: 0.72rem;
+}
+
+.about-right .terminal-body {
+    font-size: 0.76rem;
+    line-height: 1.65;
+}
+
+.about-right .cursor {
+    width: 7px;
+    height: 13px;
+}
