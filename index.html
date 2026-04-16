@@ -9,6 +9,19 @@
     <link href="styles/terminal.css" rel="stylesheet">
     <link href="styles/main.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/disable-devtool"></script>
+<script>
+    // 상세 옵션 설정
+    DisableDevtool({
+        // 개발자 도구가 감지되었을 때 이동할 페이지 (선택사항)
+        // url: 'https://google.com', 
+        
+        // 감지 시 페이지 내용을 지워버림
+        clearLog: true,
+        
+        // 개발자 도구가 열려있으면 무한 루프 디버거 가동
+        disableMenu: true 
+    });
+</script>
 </head>
 <body>
 
